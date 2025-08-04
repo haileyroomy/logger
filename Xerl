@@ -1,0 +1,26 @@
+local HttpService = game:GetService("HttpService")
+local Player = game:GetService("Players").LocalPlayer
+
+local function getExecutor()
+    return (identifyexecutor and identifyexecutor()) or "Unknown"
+end
+
+local info = {
+    ["content"] = "**Xeriphean Logs**",
+    ["embeds"] = {{
+        ["title"] = "Execution Logger",
+        ["fields"] = {
+            {["name"] = "Username", ["value"] = Player.Name},
+            {["name"] = "UserId", ["value"] = Player.UserId},
+            {["name"] = "Game", ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name},
+            {["name"] = "Executor", ["value"] = getExecutor()},
+            {["name"] = "Time", ["value"] = os.date("%c")}
+        }
+    }}
+}
+
+HttpService:PostAsync(
+    "https://webhook.lewisakura.moe/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN",
+    HttpService:JSONEncode(info),
+    Enum.HttpContentType.ApplicationJson
+)
